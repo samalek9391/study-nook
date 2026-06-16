@@ -11,6 +11,9 @@ const NavBar = () => {
       <li>
         <Link href="/rooms">Rooms</Link>
       </li>
+      <li>
+        <Link href="/add-rooms">Add Rooms</Link>
+      </li>
     </>
   );
 
