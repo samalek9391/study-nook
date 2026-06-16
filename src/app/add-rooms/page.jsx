@@ -47,7 +47,7 @@ const AddRooms = () => {
     <div className="w-6xl mx-auto p-6">
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="text-3xl font-bold text-center mb-6">
+          <h2 className="text-3xl text-[#412AD5] font-bold text-center mb-6">
             Add Study Room
           </h2>
 
