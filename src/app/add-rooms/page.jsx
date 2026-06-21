@@ -1,209 +1,162 @@
-
-
 "use client";
 
-import { useForm } from "react-hook-form";
+const AddRoomsPage = () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-const amenitiesOptions = [
-  "Whiteboard",
-  "Projector",
-  "Wi-Fi",
-  "Power Outlets",
-  "Quiet Zone",
-  "Air Conditioning",
-];
+    const formData = new FormData(e.currentTarget);
+    const room = Object.fromEntries(formData.entries());
 
-const AddRooms = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm();
+    console.log(room);
 
-  const onSubmit = (data) => {
-    const selectedAmenities = amenitiesOptions.filter(
-      (amenity) => data.amenities?.includes(amenity)
-    );
+    const res = await fetch('http://localhost:5000/rooms', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(room),
+    })
 
-    const roomData = {
-      roomName: data.roomName,
-      description: data.description,
-      image: data.image,
-      floor: data.floor,
-      capacity: Number(data.capacity),
-      hourlyRate: Number(data.hourlyRate),
-      amenities: selectedAmenities,
-    };
-
-    console.log(roomData);
-
-    // axios.post(...)
-    // toast.success("Room added successfully")
-
-    reset();
+    const data = await res.json()
+    console.log(data);
   };
 
   return (
-    <div className="w-6xl mx-auto p-6">
-      <div className="card bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="text-3xl text-[#412AD5] font-bold text-center mb-6">
-            Add Study Room
-          </h2>
+    <div className="w-4xl mx-auto px-4 py-10">
+      <div className="bg-base-100 shadow-xl rounded-xl p-8">
+        <h1 className="text-4xl font-bold text-center mb-8">
+          Add Study Room
+        </h1>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-5"
-          >
-            {/* Room Name */}
-            <div>
-              <label className="label">
-                <span className="label-text font-semibold">
-                  Room Name
-                </span>
-              </label>
+        <form onSubmit={onSubmit} className="space-y-6">
 
+          {/* Room Name */}
+          <input
+            name="roomName"
+            type="text"
+            placeholder="Quiet Study Room"
+            className="input input-bordered w-full"
+            required
+          />
+
+          {/* Description */}
+          <textarea
+            name="description"
+            rows="5"
+            placeholder="Describe the room..."
+            className="textarea textarea-bordered w-full"
+            required
+          />
+
+          {/* Image URL */}
+          <input
+            name="image"
+            type="url"
+            placeholder="https://example.com/image.jpg"
+            className="input input-bordered w-full"
+            required
+          />
+
+          {/* Floor */}
+          <input
+            name="floor"
+            type="text"
+            placeholder="3rd Floor"
+            className="input input-bordered w-full"
+            required
+          />
+
+          {/* Capacity */}
+          <input
+            name="capacity"
+            type="number"
+            min="1"
+            placeholder="4"
+            className="input input-bordered w-full"
+            required
+          />
+
+          {/* Hourly Rate */}
+          <input
+            name="hourlyRate"
+            type="number"
+            min="1"
+            placeholder="5"
+            className="input input-bordered w-full"
+            required
+          />
+
+          {/* Amenities */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+
+            <label className="flex items-center gap-3">
               <input
-                type="text"
-                placeholder="Enter room name"
-                className="input input-bordered w-full"
-                {...register("roomName", {
-                  required: true,
-                })}
+                name="amenities"
+                value="Whiteboard"
+                type="checkbox"
+                className="checkbox checkbox-primary"
               />
-            </div>
+              Whiteboard
+            </label>
 
-            {/* Description */}
-            <div>
-              <label className="label">
-                <span className="label-text font-semibold">
-                  Description
-                </span>
-              </label>
-
-              <textarea
-                rows="5"
-                placeholder="Room description"
-                className="textarea textarea-bordered w-full"
-                {...register("description", {
-                  required: true,
-                })}
-              />
-            </div>
-
-            {/* Image URL */}
-            <div>
-              <label className="label">
-                <span className="label-text font-semibold">
-                  Image URL
-                </span>
-              </label>
-
+            <label className="flex items-center gap-3">
               <input
-                type="url"
-                placeholder="https://example.com/image.jpg"
-                className="input input-bordered w-full"
-                {...register("image", {
-                  required: true,
-                })}
+                name="amenities"
+                value="Projector"
+                type="checkbox"
+                className="checkbox checkbox-primary"
               />
-            </div>
+              Projector
+            </label>
 
-            {/* Floor */}
-            <div>
-              <label className="label">
-                <span className="label-text font-semibold">
-                  Floor
-                </span>
-              </label>
-
+            <label className="flex items-center gap-3">
               <input
-                type="text"
-                placeholder="e.g. 3rd Floor"
-                className="input input-bordered w-full"
-                {...register("floor", {
-                  required: true,
-                })}
+                name="amenities"
+                value="Wi-Fi"
+                type="checkbox"
+                className="checkbox checkbox-primary"
               />
-            </div>
+              Wi-Fi
+            </label>
 
-            {/* Capacity */}
-            <div>
-              <label className="label">
-                <span className="label-text font-semibold">
-                  Capacity
-                </span>
-              </label>
-
+            <label className="flex items-center gap-3">
               <input
-                type="number"
-                min="1"
-                placeholder="e.g. 4"
-                className="input input-bordered w-full"
-                {...register("capacity", {
-                  required: true,
-                })}
+                name="amenities"
+                value="Power Outlets"
+                type="checkbox"
+                className="checkbox checkbox-primary"
               />
-            </div>
+              Power Outlets
+            </label>
 
-            {/* Hourly Rate */}
-            <div>
-              <label className="label">
-                <span className="label-text font-semibold">
-                  Hourly Rate ($)
-                </span>
-              </label>
-
+            <label className="flex items-center gap-3">
               <input
-                type="number"
-                min="1"
-                placeholder="e.g. 5"
-                className="input input-bordered w-full"
-                {...register("hourlyRate", {
-                  required: true,
-                })}
+                name="amenities"
+                value="Quiet Zone"
+                type="checkbox"
+                className="checkbox checkbox-primary"
               />
-            </div>
+              Quiet Zone
+            </label>
 
-            {/* Amenities */}
-            <div>
-              <label className="label">
-                <span className="label-text font-semibold">
-                  Amenities
-                </span>
-              </label>
+            <label className="flex items-center gap-3">
+              <input
+                name="amenities"
+                value="Air Conditioning"
+                type="checkbox"
+                className="checkbox checkbox-primary"
+              />
+              Air Conditioning
+            </label>
+          </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {amenitiesOptions.map((amenity) => (
-                  <label
-                    key={amenity}
-                    className="label cursor-pointer justify-start gap-3"
-                  >
-                    <input
-                      type="checkbox"
-                      value={amenity}
-                      className="checkbox checkbox-primary"
-                      {...register("amenities")}
-                    />
-
-                    <span>{amenity}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="btn btn-primary w-full"
-            >
-              Add Room
-            </button>
-          </form>
-        </div>
+          <button type="submit" className="btn btn-primary w-full">
+            Add Room
+          </button>
+        </form>
       </div>
     </div>
   );
 };
 
-export default AddRooms;
+export default AddRoomsPage;
