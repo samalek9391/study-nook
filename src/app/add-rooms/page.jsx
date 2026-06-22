@@ -1,5 +1,7 @@
 "use client";
 
+import { Toaster } from "sonner";
+
 const AddRoomsPage = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +31,9 @@ const AddRoomsPage = () => {
         </h1>
 
         <form onSubmit={onSubmit} className="space-y-6">
-
+          <label>
+            Room Name
+          </label>
           {/* Room Name */}
           <input
             name="roomName"
@@ -39,6 +43,10 @@ const AddRoomsPage = () => {
             required
           />
 
+
+          <label>
+            Room Description
+          </label>
           {/* Description */}
           <textarea
             name="description"
@@ -47,7 +55,7 @@ const AddRoomsPage = () => {
             className="textarea textarea-bordered w-full"
             required
           />
-
+          <label>Image URL</label>
           {/* Image URL */}
           <input
             name="image"
@@ -56,7 +64,7 @@ const AddRoomsPage = () => {
             className="input input-bordered w-full"
             required
           />
-
+          <label>Floor</label>
           {/* Floor */}
           <input
             name="floor"
@@ -66,6 +74,8 @@ const AddRoomsPage = () => {
             required
           />
 
+
+          <label>Capacity</label>
           {/* Capacity */}
           <input
             name="capacity"
@@ -75,13 +85,13 @@ const AddRoomsPage = () => {
             className="input input-bordered w-full"
             required
           />
-
+          <label>Rent/Hour</label>
           {/* Hourly Rate */}
           <input
             name="hourlyRate"
             type="number"
             min="1"
-            placeholder="5"
+            placeholder="$5/Hour"
             className="input input-bordered w-full"
             required
           />
@@ -153,6 +163,7 @@ const AddRoomsPage = () => {
           <button type="submit" className="btn btn-primary w-full">
             Add Room
           </button>
+          <Toaster/>
         </form>
       </div>
     </div>
