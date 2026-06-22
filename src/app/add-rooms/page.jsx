@@ -1,27 +1,40 @@
 "use client";
 
-import { Toaster } from "sonner";
+import { toast } from "sonner";
 
 const AddRoomsPage = () => {
   const onSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const room = Object.fromEntries(formData.entries());
+  const formData = new FormData(e.currentTarget);
+  const room = Object.fromEntries(formData.entries());
+  room.amenities = formData.getAll("amenities");
 
-    console.log(room);
-
-    const res = await fetch('http://localhost:5000/rooms', {
-      method: 'POST',
+  try {
+    const res = await fetch("http://localhost:5000/rooms", {
+      method: "POST",
       headers: {
-        'content-type': 'application/json',
+        "content-type": "application/json",
       },
       body: JSON.stringify(room),
-    })
+    });
 
-    const data = await res.json()
-    console.log(data);
-  };
+    const data = await res.json();
+
+    if (res.ok && data.result?.insertedId) {
+      toast.success("Room added successfully");
+
+      e.target.reset();
+
+      console.log(data);
+    } else {
+      toast.error("Failed to add room");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Something went wrong");
+  }
+};
 
   return (
     <div className="w-4xl mx-auto px-4 py-10">
@@ -163,7 +176,6 @@ const AddRoomsPage = () => {
           <button type="submit" className="btn btn-primary w-full">
             Add Room
           </button>
-          <Toaster/>
         </form>
       </div>
     </div>
